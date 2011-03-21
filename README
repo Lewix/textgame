@@ -10,8 +10,3 @@ I/O System
 ----------
 
 Made up of four classes: Listener, Modifier, Printer and Command. Listener and Modifier pass around Commands generated from user input. Modifier then changes the game state. Printer takes care of all the output from the game.
-
-Issues
-------
-
-* How do we handle errors? Should we make our own exceptions or simply return booleans representing success?
