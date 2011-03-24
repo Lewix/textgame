@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame.io;
+package textgame;
 
 public class Listener {
   // Waits for user input, and decodes the input into a command to be issued to the Player

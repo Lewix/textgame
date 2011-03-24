@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame;
+package textgame;
 
 /**
  * Represents an ingame non player character. The player can talk to them, give

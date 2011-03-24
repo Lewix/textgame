@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame;
+package textgame;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame.io;
+package textgame;
 
 public class Printer {
   // Prints the game state, or part of it

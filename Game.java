@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame;
+package textgame;
 
 import uk.ac.cam.lab61.textgame.io.*;
 

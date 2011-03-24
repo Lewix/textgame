@@ -1,4 +1,4 @@
-package uk.ac.cam.lab61.textgame.io;
+package textgame;
 
 public class Modifier {
   // Modifies the game state, through the player
