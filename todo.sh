@@ -4,7 +4,6 @@
 
 lines=$(grep -n '^To-do$' README | cut -f 1 -d ':')
 if [[ $lines!=0 ]]; then
-  #head -n $(grep -n '^To-do$' README | cut -f 1 -d ':') README >> new_README
   head -n $(($lines-1)) README >> new_README
 fi
 echo 'To-do' >> new_README
