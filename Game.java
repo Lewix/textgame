@@ -1,7 +1,5 @@
 package textgame;
 
-import uk.ac.cam.lab61.textgame.io.*;
-
 public class Game {
   private Listener listener;
   private Printer printer;
