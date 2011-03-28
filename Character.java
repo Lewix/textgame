@@ -15,7 +15,7 @@ package textgame;
  * @author Colin Rothwell
  */
 class Character {
-    private ConsersationState state;
+    private ConversationState state;
     private int id;
     private String name, description;
 
