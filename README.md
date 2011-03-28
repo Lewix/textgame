@@ -15,11 +15,7 @@ To-do
 -----
 
 
-* TODO: implement Character.talk 
-
-* TODO: implement Character.getItem 
-
-* TODO: implement Character.giveItem 
+* TODO: write CommandFormatException 
 
 * TODO: decide on the state a command should have 
 
@@ -50,6 +46,12 @@ To-do
 * TODO: decide whether Modifier class is useful 
 
 * TODO: write issueCommand 
+
+* TODO: implement Character.talk 
+
+* TODO: implement Character.getItem 
+
+* TODO: implement Character.giveItem 
 
 * TODO: write printState (and others for different parts of state)
 
