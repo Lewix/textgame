@@ -1,8 +1,13 @@
 package textgame;
 
+/**
+ * Prints output to the screen for the user to read. The can request various
+ * parts of the game state to be printed. A generic message will be printed
+ * after each command the user issues.
+ *
+ * @author Lewis Brown
+ */
 public class Printer {
-  // Prints the game state, or part of it
-
   public void printState() {
     //TODO: write printState (and others for different parts of state)
   }
