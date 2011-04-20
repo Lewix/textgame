@@ -14,7 +14,7 @@ package textgame;
  * @see Item
  * @author Colin Rothwell
  */
-class Character {
+class NPC {
     private ConversationState state;
     private int id;
     private String name, description;
@@ -25,7 +25,7 @@ class Character {
 
     public ConversationState getState() { return state; }
 
-    public Character(int id, String name, ConversationState initialState) {
+    public NPC(int id, String name, ConversationState initialState) {
         this.id = id;
         this.name = name;
         this.state = initialState;

@@ -10,6 +10,11 @@ package textgame;
 public class Printer {
   public void printState() {
     //TODO: write printState (and others for different parts of state)
+    System.out.println("No info");
+  }
+
+  public void printFailure() {
+    System.out.println("You can't do that");
   }
 
 }

@@ -1,3 +1,5 @@
+package textgame;
+
 import java.util.*;
 
 public abstract class ItemContainer {

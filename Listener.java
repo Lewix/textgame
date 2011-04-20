@@ -14,26 +14,22 @@ import java.util.ArrayList;
  *
  */
 public class Listener {
-  public static Command getCommand() {
+  public static Command getCommand() throws InvalidCommandException {
     List<Character> charList = new ArrayList<Character>();
     char userResponse = (char)0;
     while (userResponse != '\n') {
-    //TODO: handle IOException properly
       try {
         userResponse = (char)System.in.read();
       } catch (java.io.IOException e) {
-        userResponse = (char)'\n';
+        throw new InvalidCommandException("IOException");
       }
-      charList.add((Character)userResponse);
+      if (userResponse != '\n')
+        charList.add((Character)userResponse);
     }
     char[] commandString = new char[charList.size()];
     for (int i = 0; i<charList.size(); i++) {
       commandString[i] = (char)(Character)charList.toArray()[i];
     }
     return new Command(new String(commandString));
-  }
-
-  public Listener() {
-    super();
   }
 }

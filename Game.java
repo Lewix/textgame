@@ -16,20 +16,29 @@ public class Game {
   private Listener listener;
   private Printer printer;
   private Modifier modifier;
-  //private Player player;
+  private Player player;
 
   private Game() {
     super();
+    player = new Player();
     listener = new Listener();
     printer = new Printer();
-    modifier = new Modifier();
-    //player = new Player();
-    //TODO: write game constructor
+    modifier = new Modifier(player);
   }
 
   public static void main(String [] args) {
-    //TODO: write main
+    Game game = new Game();
+    while (true) { //TODO: success condition
+      try {
+        Command command = game.listener.getCommand();
+        game.modifier.issueCommand(command);
+      } catch (InvalidCommandException e) {
+        game.printer.printFailure();
+        System.out.println(e.getMessage());
+      } catch (QuitException e) {
+        break;
+      }
+      game.printer.printState();
+    }
   }
-
-
 }

@@ -1,3 +1,5 @@
+package textgame;
+
 import java.util.*;
 
 public class Item {

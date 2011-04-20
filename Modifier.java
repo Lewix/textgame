@@ -8,11 +8,39 @@ package textgame;
  * @author Lewis Brown
  *
  * @see Command
+ * @see Verbs
+ * @see Articles
+ * @see Prepositions
+ * @see Objects
  */
 public class Modifier {
-  public boolean issueCommand(Command command) { //TODO: decide on error handling
-    //TODO: decide whether Modifier class is useful
-    //TODO: write issueCommand
-    return false;
+  private Player player;
+
+  public void issueCommand(Command command) throws InvalidCommandException, QuitException {
+    //TODO: make the game playable?
+    // Locate the verb, then for each verb the article and possibly more
+    switch (command.getVerb()) {
+      case GO: 
+        switch (command.getArticle()) {
+          case EAST: player.goRight(); break;
+          case JOHNSON: player.lookAt(Articles.JOHNSON.getSpellings()); break;
+          default: throw new InvalidCommandException("No article for GO"); 
+        }
+        break;
+      case BIKE: 
+        switch (command.getArticle()) {
+          case EAST: player.goRight(); break;
+          case JOHNSON: player.talkTo(); break;
+          default: throw new InvalidCommandException("No article for BIKE");
+        }
+        break;
+      case QUIT:
+        throw new QuitException();
+      default: throw new InvalidCommandException("No verb");
+    }
+  }
+
+  public Modifier(Player player) {
+    this.player = player;
   }
 }

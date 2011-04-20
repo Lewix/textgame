@@ -17,10 +17,6 @@ To-do
 
 * TODO: write CommandFormatException 
 
-* TODO: decide on the state a command should have 
-
-* TODO: write Command constructor 
-
 * TODO: Implement ConversationState.getAcceptableItems(); 
 
 * TODO: Implement ConversationState.getItem(); 
@@ -33,25 +29,23 @@ To-do
 
 * TODO: Implment ConversationState.talk 
 
-* TODO: write game constructor 
+* TODO: write game constructor while (true) { 
 
-* TODO: write main 
+* TODO: success condition 
 
-* TODO: write getCommand() 
-
-* TODO: write decode public boolean issueCommand(Command command) { 
-
-* TODO: decide on error handling 
-
-* TODO: decide whether Modifier class is useful 
-
-* TODO: write issueCommand 
+* TODO: make the game playable? 
 
 * TODO: implement Character.talk 
 
 * TODO: implement Character.getItem 
 
 * TODO: implement Character.giveItem 
+
+* TODO: initiate map 
+
+* TODO: location = someIndex ; 
+
+* TODO 
 
 * TODO: write printState (and others for different parts of state)
 

@@ -1,5 +1,7 @@
 package textgame;
 
+import java.util.*;
+
 /**
  * Encodes the commands issued by the user. The <code>Listener</code> creates
  * <code>Command</code>s that are passed to the <code>Modifier</code> to
@@ -13,11 +15,10 @@ package textgame;
  * @see Modifier
  */
 public class Command {
-  //TODO: decide on command syntax
-  private final String verb;
-  private final String article;
-  private final String preposition;
-  private final String object;
+  private final Verbs verb;
+  private final Articles article;
+  private final Prepositions preposition;
+  private final Objects object;
 
   public Command(String commandString) {
     String[] elements = commandString.split(" ");
@@ -32,20 +33,53 @@ public class Command {
    * Possible verbs will be stored in a file as will the articles and objects
    * they are allowed to operate on.
    */
-  private String recogniseVerb(String[] elements) {
-    //TODO: write recogniseVerb
-    return "";
+  private Verbs recogniseVerb(String[] elements) {
+    String verbCandidate;
+    try {
+      verbCandidate = elements[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      verbCandidate = "";
+    }
+    return Verbs.getVerb(verbCandidate);
   }
-  private String recogniseArticle(String[] elements) {
-    //TODO: write recogniseArticle
-    return "";
+  private Articles recogniseArticle(String[] elements) {
+    String articleCandidate;
+    try {
+      articleCandidate = elements[1];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      articleCandidate = "";
+    }
+    return Articles.getArticle(articleCandidate);
   }
-  private String recognisePreposition(String[] elements) {
-    //TODO: write recognisePreposition
-    return "";
+  private Prepositions recognisePreposition(String[] elements) {
+    String prepositionCandidate;
+    try {
+      prepositionCandidate = elements[2];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      prepositionCandidate = "";
+    }
+    return Prepositions.getPreposition(prepositionCandidate);
   }
-  private String recogniseObject(String[] elements) {
-    //TODO: write recogniseObject
-    return "";
+  private Objects recogniseObject(String[] elements) {
+    String objectCandidate;
+    try {
+      objectCandidate = elements[3];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      objectCandidate = "";
+    }
+    return Objects.getObject(objectCandidate);
+  }
+
+  public Verbs getVerb() {
+    return verb;
+  }
+  public Articles getArticle() {
+    return article;
+  }
+  public Prepositions getPreposition() {
+    return preposition;
+  }
+  public Objects getObject() {
+    return object;
   }
 }
