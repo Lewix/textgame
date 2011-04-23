@@ -20,8 +20,7 @@ class ConversationState {
      * @return The set of all items the character can accept at this time.
      */
     public Set<Item> getAcceptableItems() {
-        //TODO: Implement ConversationState.getAcceptableItems();
-        return new TreeSet<Item>();
+        return acceptableItems.keySet();
     }
 
     /**
@@ -29,17 +28,21 @@ class ConversationState {
      * accept this item at this time.
      */ 
     public ConversationState getItem(Item i) throws IllegalArgumentException {
-        //TODO: Implement ConversationState.getItem();
-        return this;
+        ConversationState r = acceptableItems.get(i);
+        if (r != null) {
+            return r;
+        }
+        else {
+            throw new IllegalArgumentException("Cannot accept " + i);
+        }
     }
       
-    private Map<Item, ConversationState> giveableItems; 
+    private Map<Item, ConversationState> givableItems; 
     /**
      * @return The set of all items the character can give at this time. 
      */
     public Set<Item> getGivableItems() {
-        //TODO: Implement ConversationState.getGivableItems();
-        return new TreeSet<Item>();
+        return givableItems.keySet();
     }
 
     /**
@@ -47,14 +50,18 @@ class ConversationState {
      * that item at this time
      */
     public ConversationState giveItem(Item i) throws IllegalArgumentException {
-        //TODO: Implement ConversationState.giveItem
-        return this;
+        ConversationState r = givableItems.get(i);
+        if (r != null) {
+            return r;
+        }
+        else {
+            throw new IllegalArgumentException("Cannot give " + i);
+        }
     }
 
     private Map<String, ConversationState> speeches;
     public Set<String> getSpeeches() {
-        //TODO: Implement ConversationState.getSpeeches()
-        return new TreeSet<String>();
+        return speeches.keySet();
     }
 
     /**
@@ -62,8 +69,13 @@ class ConversationState {
      * character at this time
      */
     public ConversationState talk(String s) throws IllegalArgumentException {
-        //TODO: Implment ConversationState.talk
-        return this;
+        ConversationState r = speeches.get(s);
+        if (r != null) {
+            return r;
+        }
+        else {
+            throw new IllegalArgumentException("Cannot speak " + s);
+        }
     }
 }
 
