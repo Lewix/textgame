@@ -4,6 +4,15 @@ import java.util.*;
 
 public abstract class ItemContainer {
 	private List<Item> itemList;
+
+    /**
+     * Lets you initialise the ItemContainer with an existing List of items.
+     *
+     * @author Colin Rothwell
+     */
+    public ItemContainer(List<Item> itemList) {
+        this.itemList = itemList;
+    }
 	
 	protected ItemContainer(){
 		itemList =  new ArrayList<Item>();

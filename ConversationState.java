@@ -2,7 +2,7 @@ package textgame;
 
 import java.util.Set;
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.HashMap;
 import java.lang.IllegalArgumentException;
 
 /**
@@ -11,16 +11,40 @@ import java.lang.IllegalArgumentException;
  * At each step in the conversation, the player may do one of several things to
  * the character, and each thing they do leads to a new state.
  *
- * @see NPC
  * @author Colin Rothwell
+ * @see NPC
  */
 class ConversationState {
+    private String reply;
+    public String getReply() { return reply; }
+
+    public ConversationState(String reply) {
+        this.reply = reply;
+        this.acceptableItems = new HashMap<Item, ConversationState>();
+        this.givableItems = new HashMap<Item, ConversationState>();
+        this.speeches = new HashMap<String, ConversationState>();
+    }
+
+    public ConversationState(String reply, 
+            Map<Item, ConversationState> acceptableItems,
+            Map<Item, ConversationState> givableItems,
+            Map<String, ConversationState> speeches) {
+        this.reply = reply;
+        this.acceptableItems = acceptableItems;
+        this.givableItems = givableItems;
+        this.speeches = speeches;
+    }
+
     private Map<Item, ConversationState> acceptableItems;
     /**
      * @return The set of all items the character can accept at this time.
      */
     public Set<Item> getAcceptableItems() {
         return acceptableItems.keySet();
+    }
+
+    public void putAcceptableItem(Item i, ConversationState s) {
+        acceptableItems.put(i, s);
     }
 
     /**
@@ -45,6 +69,10 @@ class ConversationState {
         return givableItems.keySet();
     }
 
+    public void putGivableItem(Item i, ConversationState s) {
+        givableItems.put(i, s);
+    }
+
     /**
      * @exception IllegalArgumentException thrown is the character cannot give
      * that item at this time
@@ -62,6 +90,10 @@ class ConversationState {
     private Map<String, ConversationState> speeches;
     public Set<String> getSpeeches() {
         return speeches.keySet();
+    }
+
+    public void putSpeech(String s, ConversationState c) {
+        speeches.put(s, c);
     }
 
     /**

@@ -25,9 +25,10 @@ class NPC {
 
     public ConversationState getState() { return state; }
 
-    public NPC(int id, String name, ConversationState initialState) {
+    public NPC(int id, String name, String description, ConversationState initialState) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.state = initialState;
     }
 
