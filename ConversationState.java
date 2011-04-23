@@ -11,7 +11,7 @@ import java.lang.IllegalArgumentException;
  * At each step in the conversation, the player may do one of several things to
  * the character, and each thing they do leads to a new state.
  *
- * @see Character
+ * @see NPC
  * @author Colin Rothwell
  */
 class ConversationState {
@@ -33,7 +33,7 @@ class ConversationState {
             return r;
         }
         else {
-            throw new IllegalArgumentException("Cannot accept " + i);
+            throw new IllegalArgumentException("cannot accept " + i);
         }
     }
       
@@ -55,7 +55,7 @@ class ConversationState {
             return r;
         }
         else {
-            throw new IllegalArgumentException("Cannot give " + i);
+            throw new IllegalArgumentException("cannot give " + i);
         }
     }
 
@@ -74,7 +74,7 @@ class ConversationState {
             return r;
         }
         else {
-            throw new IllegalArgumentException("Cannot speak " + s);
+            throw new IllegalArgumentException("cannot speak " + s);
         }
     }
 }
