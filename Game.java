@@ -15,7 +15,7 @@ package textgame;
 public class Game {
   private Listener listener;
   private Printer printer;
-  private Modifier modifier;
+  //private Modifier modifier;
   private Player player;
 
   private Game() {
@@ -23,7 +23,7 @@ public class Game {
     player = new Player();
     listener = new Listener();
     printer = new Printer();
-    modifier = new Modifier(player);
+    //modifier = new Modifier(player);
   }
 
   public static void main(String [] args) {
@@ -31,7 +31,7 @@ public class Game {
     while (true) { //TODO: success condition
       try {
         Command command = game.listener.getCommand();
-        game.modifier.issueCommand(command);
+        command.execute(game.player);
       } catch (InvalidCommandException e) {
         game.printer.printFailure();
         System.out.println(e.getMessage());
