@@ -25,27 +25,47 @@ class NPC {
 
     public ConversationState getState() { return state; }
 
-    public NPC(int id, String name, ConversationState initialState) {
+    public NPC(int id, String name, String description, ConversationState initialState) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.state = initialState;
     }
 
-    public void talk(String speech) {
-        //TODO: implement Character.talk
+    public String toString() {
+        return id + ": " + name;
+    }
+
+    public void talk(String speech) throws IllegalArgumentException {
+        try {
+            state = state.talk(speech);
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(this + " " + e.getMessage());
+        }
     }
 
     /**
      * Represents the character receiving an item from the player
      */
-    public void getItem(Item item) {
-        //TODO: implement Character.getItem
+    public void getItem(Item item) throws IllegalArgumentException {
+        try {
+            state = state.getItem(item);
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(this + " " + e.getMessage());
+        }
     }
 
     /**
      * Represents the character giving an item to the player
      */
-    public void giveItem(Item item) {
-        //TODO: implement Character.giveItem
+    public void giveItem(Item item) throws IllegalArgumentException {
+        try {
+            state = state.giveItem(item);
+        }
+        catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(this + " " + e.getMessage());
+        }
     }
 }
