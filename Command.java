@@ -16,27 +16,25 @@ import java.util.*;
 public class Command {
   private final Verb verb;
   private final String[] args;
-  private final Articles article;
-  private final Prepositions preposition;
-  private final Objects object;
 
   public Command(String commandString) {
     String[] elements = commandString.split(" ");
     args = Arrays.copyOfRange(elements,1,elements.length);
     verb = recogniseVerb(elements);
-    article = recogniseArticle(elements);
-    preposition = recognisePreposition(elements);
-    object = recogniseObject(elements);
   }
 
+  /**
+   * Executes the command. Uses the <code>Verb</code>'s execute method to
+   * execute the command and thus modify the game state.
+   */
   public void execute(Player player) throws InvalidCommandException, QuitException {
     this.verb.execute(args,player);
   }
 
   // Verb spellings
-  private static String[] go = {"go","Go"};
-  private static String[] combine = {"combine"};
-  private static String[] talk = {"talk"};
+  private static String[] go = {"go"};
+  private static String[] combine = {"use", "combine"};
+  private static String[] talk = {"speak", "talk"};
   private static String[] none = {""};
   private static String[] quit = {"q","quit","exit"};
 
@@ -48,30 +46,38 @@ public class Command {
   private enum Verb {
     GO(go) {
       void execute(String[] args, Player player) throws InvalidCommandException {
-        switch (args.length) {
-          case 1: player.goRight(); //TODO: say where to go
-                  break;
-          default: throw new InvalidCommandException("Wrong amount of arguments");
+        String roomName = "";
+        for (String s: args) {
+          roomName += s + " ";
         }
+        // Get rid of trailing space
+        roomName = roomName.substring(0,roomName.length()-2); 
+        player.GoToRoom(roomName);
       }
     },
     COMBINE(combine) {
       void execute(String[] args, Player player) throws InvalidCommandException {
         switch (args.length) {
-          case 2: //combine(args[0],args[1]); break;
+          case 2: combine(args[0],args[1]); break;
           case 3: if (args[1].equals("and")) {
-                    //combine(args[0],args[2]); break;
-          }
+                    combine(args[0],args[2]); break;
+                  }
+                  else if (args[1].equals("with")) {
+                    combine(args[0],args[2]); break;
+                  }
           default: throw new InvalidCommandException("Wrong amount of arguments");
         }
       }
     },
     TALK(talk) {
       void execute(String[] args, Player player) throws InvalidCommandException {
-        switch (args.length) {
-          case 1: player.talkTo(/*args[0]*/); break;
-          default: throw new InvalidCommandException("Wrong amount of arguments");
+        String npcName = "";
+        for (String s: args) {
+          npcName += s + " ";
         }
+        // Get rid of trailing space
+        npcName = npcName.substring(0,npcName.length()-2); 
+        player.talkTo(npcName);
       }
     },
     NONE(none) {
@@ -121,44 +127,8 @@ public class Command {
     }
     return Verb.getVerb(verbCandidate);
   }
-  private Articles recogniseArticle(String[] elements) {
-    String articleCandidate;
-    try {
-      articleCandidate = elements[1];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      articleCandidate = "";
-    }
-    return Articles.getArticle(articleCandidate);
-  }
-  private Prepositions recognisePreposition(String[] elements) {
-    String prepositionCandidate;
-    try {
-      prepositionCandidate = elements[2];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      prepositionCandidate = "";
-    }
-    return Prepositions.getPreposition(prepositionCandidate);
-  }
-  private Objects recogniseObject(String[] elements) {
-    String objectCandidate;
-    try {
-      objectCandidate = elements[3];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      objectCandidate = "";
-    }
-    return Objects.getObject(objectCandidate);
-  }
 
   public Verb getVerb() {
     return verb;
-  }
-  public Articles getArticle() {
-    return article;
-  }
-  public Prepositions getPreposition() {
-    return preposition;
-  }
-  public Objects getObject() {
-    return object;
   }
 }
