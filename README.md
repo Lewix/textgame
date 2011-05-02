@@ -15,31 +15,19 @@ To-do
 -----
 
 
-* TODO: write CommandFormatException 
+* TODO: write CommandFormatException case 1: player.goRight(); 
 
-* TODO: Implement ConversationState.getAcceptableItems(); 
+* TODO: say where to go 
 
-* TODO: Implement ConversationState.getItem(); 
+* TODO: visibility of the enums methods 
 
-* TODO: Implement ConversationState.getGivableItems(); 
+* TODO: binary search in arrays is a bit shit 
 
-* TODO: Implement ConversationState.giveItem 
-
-* TODO: Implement ConversationState.getSpeeches() 
-
-* TODO: Implment ConversationState.talk 
-
-* TODO: write game constructor while (true) { 
+* TODO: Colin implements makeMap while (true) { 
 
 * TODO: success condition 
 
-* TODO: make the game playable? 
-
-* TODO: implement Character.talk 
-
-* TODO: implement Character.getItem 
-
-* TODO: implement Character.giveItem 
+* TODO: print text 
 
 * TODO: initiate map 
 

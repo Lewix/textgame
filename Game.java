@@ -20,10 +20,14 @@ public class Game {
 
   private Game() {
     super();
-    player = new Player();
+    player = new Player(makeMap());
     listener = new Listener();
     printer = new Printer();
     //modifier = new Modifier(player);
+  }
+
+  protected Room makeMap() {
+    //TODO: Colin implements makeMap
   }
 
   public static void main(String [] args) {
@@ -37,6 +41,13 @@ public class Game {
         System.out.println(e.getMessage());
       } catch (QuitException e) {
         break;
+      } catch (ErrMsg e) {
+        System.out.println(e.getMsg());
+      } catch (MsgToUser e) {
+        System.out.println(e.getMsg());
+      } catch (WinThrowable w) {
+        //TODO: print text
+        return;
       }
       game.printer.printState();
     }
