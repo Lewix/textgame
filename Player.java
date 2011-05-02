@@ -1,6 +1,5 @@
 package textgame;
 
-
 public class Player extends ItemContainer {
 	
 	private Room location;
