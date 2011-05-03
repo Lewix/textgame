@@ -15,25 +15,19 @@ To-do
 -----
 
 
-* TODO: write CommandFormatException case 1: player.goRight(); 
-
-* TODO: say where to go 
+* TODO: write CommandFormatException 
 
 * TODO: visibility of the enums methods 
 
-* TODO: binary search in arrays is a bit shit 
-
-* TODO: Colin implements makeMap while (true) { 
+* TODO: binary search in arrays is a bit shit while (true) { 
 
 * TODO: success condition 
 
 * TODO: print text 
 
-* TODO: initiate map 
+* TODO: check if available and then this.location = r; else throw RestrictedAccess 
 
-* TODO: location = someIndex ; 
-
-* TODO 
+* TODO 
 
 * TODO: write printState (and others for different parts of state)
 

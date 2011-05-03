@@ -11,7 +11,7 @@ public class Player extends ItemContainer {
 	}
 	
 	//move the player to the specified room 
-	public void goTo(Room r){
+	public void goTo(String r){
 		//TODO: check if available and then this.location = r; else throw RestrictedAccess
 	}
 	

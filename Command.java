@@ -33,10 +33,12 @@ public class Command {
 
   // Verb spellings
   private static String[] go = {"go"};
-  private static String[] combine = {"use", "combine"};
+  private static String[] combine = {"combine", "use"};
   private static String[] talk = {"speak", "talk"};
   private static String[] none = {""};
   private static String[] quit = {"q","quit","exit"};
+  private static String[] take = {"take"};
+  private static String[] look = {"look"};
 
   /**
    * Verb enum type defines the verbs that can be used and their spellings.
@@ -46,24 +48,21 @@ public class Command {
   private enum Verb {
     GO(go) {
       void execute(String[] args, Player player) throws InvalidCommandException {
-        String roomName = "";
-        for (String s: args) {
-          roomName += s + " ";
+        if (args[0].equals("to")) {
+          String roomName = concatenate(Arrays.copyOfRange(args,1,args.length));
+          player.goTo(roomName);
         }
-        // Get rid of trailing space
-        roomName = roomName.substring(0,roomName.length()-2); 
-        player.GoToRoom(roomName);
       }
     },
     COMBINE(combine) {
       void execute(String[] args, Player player) throws InvalidCommandException {
         switch (args.length) {
-          case 2: combine(args[0],args[1]); break;
+          case 2: use(args[0],args[1]); break;
           case 3: if (args[1].equals("and")) {
-                    combine(args[0],args[2]); break;
+                    use(args[0],args[2]); break;
                   }
                   else if (args[1].equals("with")) {
-                    combine(args[0],args[2]); break;
+                    use(args[0],args[2]); break;
                   }
           default: throw new InvalidCommandException("Wrong amount of arguments");
         }
@@ -71,13 +70,22 @@ public class Command {
     },
     TALK(talk) {
       void execute(String[] args, Player player) throws InvalidCommandException {
-        String npcName = "";
-        for (String s: args) {
-          npcName += s + " ";
-        }
-        // Get rid of trailing space
-        npcName = npcName.substring(0,npcName.length()-2); 
+        String npcName = concatenate(args);
         player.talkTo(npcName);
+      }
+    },
+    TAKE(take) {
+      void execute(String args, Player player) throws InvalidCommandException {
+        itemName = concatenate(args);
+        player.pickUp(itemName);
+      }
+    },
+    LOOK(look) {
+      void execute(String[] args, Player player) throws InvalidCommandException {
+        if (args[0].equals("at")) {
+          String objectName = concatenate(Arrays.copyOfRange(args,1,args.length));
+          player.lookAt(objectName);
+        }
       }
     },
     NONE(none) {
@@ -92,20 +100,32 @@ public class Command {
     };
 
     private final String[] spellings;
-    //TODO: visibility of the enums methods
 
     Verb(String[] spellings) {
       this.spellings = spellings;
     }
 
-    String[] getSpellings() {
-      return spellings;
+    private static String concatenate(String[] args) {
+      String string = "";
+      for (String s: args) {
+        string += s + " ";
+      }
+      // Get rid of trailing space
+      string = string.substring(0,string.length()-2); 
+      return string;
+    }
+
+    private List<String> getSpellings() {
+      return Arrays.asList(spellings);
     }
     static Verb getVerb(String verb) {
       for (Verb v: Verb.values()) {
-        //TODO: binary search in arrays is a bit shit
-        if (Arrays.binarySearch(v.getSpellings(),verb) >= 0)
-          return v;
+        for (String s: v.getSpellings()) {
+          if (s.equals(verb)) {
+            return v;
+            break;
+          }
+        }
       }
       return NONE;
     }

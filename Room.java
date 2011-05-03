@@ -41,6 +41,6 @@ public class Room extends ItemContainer {
     }
 
     public Room(int id, String name, String description) {
-        this(id, name, description, new ArrayList<Item>, new ArrayList<NPC>, new ArrayList<Room>);
+        this(id, name, description, new ArrayList<Item>(), new ArrayList<NPC>(), new ArrayList<Room>());
     }
 }
