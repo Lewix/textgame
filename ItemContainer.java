@@ -3,12 +3,18 @@ package textgame;
 import java.util.*;
 
 public abstract class ItemContainer {
-	private List<Item> itemList = new ArrayList<Item>();
+	private List<Item> itemList;
 	private int id;
 	
 	public ItemContainer(int i){
 		id = i;
+        itemList = new ArrayList<Item>();
 	}
+
+    public ItemContainer(int i, List<Item> l) {
+        id = i;
+        itemList = l;
+    }
 	
 	//add a newly created item in the container 
 	public void addItem(Item it){
