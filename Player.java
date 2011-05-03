@@ -1,51 +1,42 @@
 package textgame;
 
-import java.util.*;
-
 public class Player extends ItemContainer {
-	private int location;
-	private final String name = "Player";
-	private List<Room> map; // = new LinkedList<Room>;
 	
-	protected Player(){
-		//TODO: initiate map
-		//TODO: location = someIndex ;
+	private Room location;
+	//map removed
+	
+	public Player(Room r){
+		super(144); //id=144 restricted for player
+		location = r;
 	}
 	
-	//move the player to the room on his left
-	protected void goLeft() {
-		if (location>0) location--;
-		else System.out.println("The way is blocked");
-	}
-
-	//move the player to the room on his right
-	protected void goRight() {
-		if (location<map.size()) location++;
-		else System.out.println("The way is blocked");
+	//move the player to the specified room 
+	public void goTo(Room r){
+		//TODO: check if available and then this.location = r; else throw RestrictedAccess
 	}
 	
-	public void lookAt(String it){
-		Item tempItem = map.get(location).contains(it);
+	public void lookAt(String it) throws MsgToUser {
+		Item tempItem = location.contains(it);
 		if (tempItem != null) {
-			System.out.println(tempItem.getDescription());
+			throw new MsgToUser(tempItem.getDescription());
 		}
 		else {
 			tempItem = this.contains(it);
 			if (tempItem != null) {
-				System.out.println(tempItem.getDescription());
+				throw new MsgToUser(tempItem.getDescription());
 			}
-			else System.out.println("No such item around");
+			else throw new ErrMsg("No such item around");
 		}
 	}
 	
-	public void pickUp(String it){
-		Item tempItem = map.get(location).contains(it);
+	public void pickUp(String it) throws MsgToUser {
+		Item tempItem = location.contains(it);
 		if (tempItem != null) {
-			this.add(tempItem);
-			map.get(location).remove(tempItem);
+			this.addItem(tempItem);
+			location.removeItem(tempItem);
 		}
 		else {
-			System.out.println("Sorry but I can't find any " + it);
+			throw new ErrMsg("Sorry but I can't find any " + it);
 		}
 	}
 	
@@ -53,50 +44,52 @@ public class Player extends ItemContainer {
 		//TODO
 	}
 	
-	public void use(String it1, String it2, String tr){
+	public void use(String it1, String it2, String tr) throws MsgToUser {
 		Item tempItem1 = this.contains(it1);
 		Item tempItem2 = this.contains(it2);
 		
 		if (tempItem1 == null) {
-			System.out.println("Sorry but I don't own a " + it1);
+			throw new ErrMsg("Sorry but I don't own a " + it1);
 		} else if (tempItem2 == null) {
-			System.out.println("Sorry but I don't own a " + it2);			
+			throw new ErrMsg("Sorry but I don't own a " + it2);			
 		} else {
 			Transformation tempTransformation = tempItem1.contain(tr);
 			if (tempTransformation != null) {
-				if (tempTransformation.getLocation().equals(map.get(location).getName())) {
+				if (tempTransformation.getLocation().equals(location.getId())) {
 					if (tempTransformation.getContributionItem().equals(it2)) {
 						for (Item newIt : tempTransformation.getOutputItems()){
-							this.add(newIt);
+							this.addItem(newIt);
 						}
-						if (tempTransformation.contributionItemVanishes()) this.remove(tempItem2);
-						if (tempTransformation.itemVanishes()) this.remove(tempItem1);
-					} else System.out.println("Sorry but I can't " + tr + " " + it1 + " with " + it2);
-				} else System.out.println("Sorry but I can't do that here");
+						if (tempTransformation.contributionItemVanishes()) this.removeItem(tempItem2);
+						if (tempTransformation.itemVanishes()) this.removeItem(tempItem1);
+					} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1 + " with " + it2);
+				} else throw new ErrMsg("Sorry but I can't do that here");
 
-			} else System.out.println("Sorry but I can't " + tr + " " + it1);
+			} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1);
 		}
 	}
 	
-	public void use(String it1, String tr){
+	public void use(String it1, String tr) throws MsgToUser {
 		Item tempItem1 = this.contains(it1);
 		
 		if (tempItem1 == null) {
-			System.out.println("Sorry but I don't own a " + it1);			
+			throw new ErrMsg("Sorry but I don't own a " + it1);			
 		} else {
 			Transformation tempTransformation = tempItem1.contain(tr);
 			if (tempTransformation != null) {
-				if (tempTransformation.getLocation().equals(map.get(location).getName())) {
+				if (tempTransformation.getLocation().equals(location.getId())) {
 
 						for (Item newIt : tempTransformation.getOutputItems()){
-							this.add(newIt);
+							this.addItem(newIt);
 						}
-						if (tempTransformation.itemVanishes()) this.remove(tempItem1);
-				} else System.out.println("Sorry but I can't do that here");
-			} else System.out.println("Sorry but I can't " + tr + " " + it1);
+						if (tempTransformation.itemVanishes()) this.removeItem(tempItem1);
+				} else throw new ErrMsg("Sorry but I can't do that here");
+			} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1);
 		}
 	}
 	
 	
 }
+
+
 

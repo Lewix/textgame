@@ -1,5 +1,3 @@
-package textgame;
-
 import java.util.*;
 
 public class Item {
@@ -8,22 +6,22 @@ public class Item {
 	private String description;
 	private List<Transformation> listTransformations;
 	
-	protected Item(int i, String n, String d) {
+	public Item(int i, String n, String d) {
 		name = n;
 		description = d;
 		listTransformations = new ArrayList<Transformation>();
 	}
 	
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 	
-	protected String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 	
 	//check if transormation is applicable for the item
-	protected Transformation contain(String s) {
+	public Transformation contain(String s) {
 		for (Transformation tr : listTransformations) {
 			//if list contain a transformation with name equal to s return true
 			if (tr.getName().equals(s)) return tr;
