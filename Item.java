@@ -1,3 +1,5 @@
+package textgame;
+
 import java.util.*;
 
 public class Item {
@@ -6,7 +8,7 @@ public class Item {
 	private String description;
 	private List<Transformation> listTransformations;
 	
-	public Item(int i, String n, String d) {
+	public Item(String n, String d) {
 		name = n;
 		description = d;
 		listTransformations = new ArrayList<Transformation>();

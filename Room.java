@@ -33,7 +33,6 @@ public class Room extends ItemContainer {
 
     public Room(int id, String name, String description, List<Item> items, List<NPC> NPCs, List<Room> connections) {
         super(id, items);
-        this.id = id;
         this.name = name;
         this.description = description;
         this.NPCs = NPCs;
