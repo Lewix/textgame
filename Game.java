@@ -64,6 +64,14 @@ public class Game {
       return r;
   }
 
+  protected Item _makePen() {
+      return new Item("Pen", "A Nice Pen");
+  }
+
+  protected Item _makePaper() {
+      return new Item("Paper", "A4, Margin, Lined. 80gsm, High quality.");
+  }
+
   /**
    * @author Colin Rothwell
    */
@@ -74,7 +82,7 @@ public class Game {
               "only with the express permission of the ferocious librarian, " +
               "a few flickering bulbs cast a dingy light over the masses of " +
               "silently oppressed students, bent and labouring at their desks. ");
-      r.addNPC(_makeLibrarian);
+      r.addNPC(_makeLibrarian());
       return r;
   }
 
@@ -102,6 +110,10 @@ public class Game {
               "The intimidating librarian. She appears to be busy tending to " +
               "the books. You'd better have a good reason to talk to her.",
               start);
+  }
+
+  protected Item _makeTextBook() {
+      return new Item("Textbook", "Algorithms and Shiz, Yo! 3rd Edition");
   }
 
   /**
@@ -143,13 +155,17 @@ public class Game {
               "mountain biking.", start);
   }
 
+  protected Item _makeSupervisionWork() {
+      return new Item("Supervision Work", "This should get you that elusive first!");
+  }
+
   /**
    * @author Colin Rothwell
    */
   protected Room _makeCorridor() {
       return new Room(3,
               "The Corridor",
-              "An angry corridor. It's vicious snaps and snarls make you jump " +
+              "An angry corridor. Its vicious snaps and snarls make you jump " +
               "as you creep from one destination to the next.");
   }
 
@@ -165,9 +181,9 @@ public class Game {
       } catch (QuitException e) {
         break;
       } catch (ErrMsg e) {
-        System.out.println(e.getMsg());
+        System.out.println(e.getMessage());
       } catch (MsgToUser e) {
-        System.out.println(e.getMsg());
+        System.out.println(e.getMessage());
       } catch (WinThrowable w) {
         //TODO: print text
         return;
