@@ -8,4 +8,8 @@ package textgame;
 
 import java.lang.Throwable;
 
-public class WinThrowable extends Throwable { }
+public class WinThrowable extends Throwable {
+    public WinThrowable(String msg) {
+        super(msg);
+    }
+}

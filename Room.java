@@ -24,12 +24,50 @@ public class Room extends ItemContainer {
 
     private List<NPC> NPCs;
     public List<NPC> getNPCs() { return NPCs; }
+    public NPC getNPC(String name) {
+        for (NPC candidate : NPCs) {
+            if (candidate.getName() == name) {
+                return candidate;
+            }
+        }
+        return null;
+    }
     public void addNPC(NPC n) { NPCs.add(n); }
     public void removeNPC(NPC n) { NPCs.remove(n); }
 
     private List<Room> connections;
     public List<Room> getConnections() { return connections; }
+    public Room getConnectionTo(String roomName) {
+        for (Room candidate : connections) {
+            if (candidate.getName() == roomName) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+    public String describeConnections() {
+        int connCount = connections.size();
+        switch (connCount) {
+            case 0:
+                return "nowhere. You are stuck, and this is probably a bug";
+            case 1:
+                return connections.get(0).getName();
+            default:
+                int i;
+                String desc = "";
+                for (i = 0; i < connCount - 1; ++i) {
+                    desc += connections.get(i).getName() + ", ";
+                }
+                return desc + "and " + connections.get(i).getName();
+        }
+    }
     public void addConnection(Room r) { connections.add(r); }
+
+    public String descriptionForPlayer() {
+        return getName() + ". " + getDescription() + 
+            "\n\nFrom here, you can go to " + describeConnections() +
+            ". \n\nYou can see " + describeItems() + " lying around.";
+    }
 
     public Room(int id, String name, String description, List<Item> items, List<NPC> NPCs, List<Room> connections) {
         super(id, items);
