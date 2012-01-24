@@ -2,6 +2,8 @@ package textgame;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 /**
  * Gets user input and issues a command to the player from it. The string of
@@ -14,22 +16,23 @@ import java.util.ArrayList;
  *
  */
 public class Listener {
-  public static Command getCommand() throws InvalidCommandException {
-    List<Character> charList = new ArrayList<Character>();
-    char userResponse = (char)0;
-    while (userResponse != '\n') {
-      try {
-        userResponse = (char)System.in.read();
-      } catch (java.io.IOException e) {
-        throw new InvalidCommandException("IOException");
-      }
-      if (userResponse != '\n')
-        charList.add((Character)userResponse);
+    public static Command getCommand() throws InvalidCommandException {
+        /*List<Character> charList = new ArrayList<Character>();
+        char userResponse = (char)0;
+        while (userResponse != '\n') {
+            try {
+                userResponse = (char)System.in.read();
+            } catch (java.io.IOException e) {
+                throw new InvalidCommandException("IOException");
+            }
+            if (userResponse != '\n')
+                charList.add((Character)userResponse);
+        }
+        char[] commandString = new char[charList.size()];
+        for (int i = 0; i<charList.size(); i++) {
+            commandString[i] = (char)(Character)charList.toArray()[i];
+        }*/
+        BufferedReader rdr = new BufferedReader(new InputStreamReader(System.in));
+        return new Command(new String(rdr.readLine()));
     }
-    char[] commandString = new char[charList.size()];
-    for (int i = 0; i<charList.size(); i++) {
-      commandString[i] = (char)(Character)charList.toArray()[i];
-    }
-    return new Command(new String(commandString));
-  }
 }

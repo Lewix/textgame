@@ -9,10 +9,19 @@ public class Player extends ItemContainer {
 		super(144); //id=144 restricted for player
 		location = r;
 	}
+
+    public String describeLocation() {
+        return "You are in " + location.descriptionForPlayer();
+    }
 	
 	//move the player to the specified room 
-	public void goTo(String r){
-		//TODO: check if available and then this.location = r; else throw RestrictedAccess
+	public void goTo(String r) throws MsgToUser, ErrMsg {
+        Room next = location.getConnectionTo(r);
+        if (next == null) {
+            throw new ErrMsg("You can't get to " + r + " from here.");
+        }
+        location = next;
+        throw new MsgToUser(describeLocation());
 	}
 	
 	public void lookAt(String it) throws MsgToUser {
@@ -40,8 +49,11 @@ public class Player extends ItemContainer {
 		}
 	}
 	
-	public void talkTo(/*Some character*/ ){
-		//TODO
+	public void talkTo(String characterName) throws ErrMsg {
+        NPC npc = location.getNPC(characterName);
+        if (npc == null) {
+            throw new ErrMsg("There's nobody called " + characterName + " here.");
+        }
 	}
 	
 	public void use(String it1, String it2, String tr) throws MsgToUser {
@@ -87,8 +99,6 @@ public class Player extends ItemContainer {
 			} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1);
 		}
 	}
-	
-	
 }
 
 

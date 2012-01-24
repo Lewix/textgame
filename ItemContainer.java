@@ -20,6 +20,23 @@ public abstract class ItemContainer {
 	public void addItem(Item it){
 		itemList.add(it);
 	}
+
+    public String describeItems() {
+        int itCount = itemList.size();
+        switch (itCount) {
+            case 0:
+                return "nothing";
+            case 1:
+                return itemList.get(0).getName();
+            default:
+                int i;
+                String desc = "";
+                for (i = 0; i < itCount - 1; ++i) {
+                    desc += itemList.get(i).getName() + ", ";
+                }
+                return desc + "and " + itemList.get(i).getName();
+        }
+    }
 	
 	//removes the item from the container 
 	public void removeItem(Item it){

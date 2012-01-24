@@ -15,19 +15,9 @@ To-do
 -----
 
 
-* TODO: write CommandFormatException 
-
-* TODO: visibility of the enums methods 
-
-* TODO: binary search in arrays is a bit shit while (true) { 
+* TODO: write CommandFormatException while (true) { 
 
 * TODO: success condition 
-
-* TODO: print text 
-
-* TODO: check if available and then this.location = r; else throw RestrictedAccess 
-
-* TODO 
 
 * TODO: write printState (and others for different parts of state)
 
