@@ -1,32 +1,33 @@
 package textgame;
 
 import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 /**
  * Stores the current state of the game. The player's state is saved in
  * <code>player</code> and the user can interact with it using
  * <code>listener</code>.
  *
+ * @author Colin Rothwell
  * @author Lewis Brown
  *
- * @see Listener
  * @see Printer
  * @see Modifier
  *
  */
 public class Game {
     private static String preamble = "!! John Fawcett's Mountain Biking Adventure ALPHA";
-    private Listener listener;
+
     private Printer printer;
-    //private Modifier modifier;
     private Player player;
 
     private Game() {
         super();
-        player = new Player(makeMap());
-        listener = new Listener();
-        printer = new Printer();
-        //modifier = new Modifier(player);
+        TransformationManager tm = new TransformationManager();
+        player = new Player(makeMap(), tm);
+        printer = new Printer(player);
     }
 
     /**
@@ -66,11 +67,11 @@ public class Game {
     }
 
     protected Item _makePen() {
-        return new Item("Pen", "A Nice Pen");
+        return new Item("pen", "Pen", "A Nice Pen");
     }
 
     protected Item _makePaper() {
-        return new Item("Paper", "A4, Margin, Lined. 80gsm, High quality.");
+        return new Item("paper", "Paper", "A4, Margin, Lined. 80gsm, High quality.");
     }
 
     /**
@@ -114,7 +115,7 @@ public class Game {
     }
 
     protected Item _makeTextBook() {
-        return new Item("Textbook", "Algorithms and Shiz, Yo! 3rd Edition");
+        return new Item("textbook", "Textbook", "Algorithms and Shiz, Yo! 3rd Edition");
     }
 
     /**
@@ -142,8 +143,9 @@ public class Game {
 
         ConversationState win = new ConversationState("This is excellent work! " +
                 "Let's go mountain biking!") {
-            public String getReply() throws WinThrowable {
-                throw new WinThrowable(super.getReply());
+            public String getReply() {
+                //TODO: Work out how to make this work!
+                return super.getReply();
             }
         };
 
@@ -156,7 +158,7 @@ public class Game {
     }
 
     protected Item _makeSupervisionWork() {
-        return new Item("Supervision Work", "This should get you that elusive first!");
+        return new Item("work", "Supervision Work", "This should get you that elusive first!");
     }
 
     /**
@@ -170,28 +172,28 @@ public class Game {
     }
 
     public static void main(String [] args) {
+        BufferedReader rdr = new BufferedReader(new InputStreamReader(System.in));
         Game game = new Game();
         System.out.println(preamble);
-        System.out.println(game.player.describeLocation());
+        game.printer.printState();
         while (true) { //TODO: success condition
+            System.out.print(">> ");
+
+            Command command = null;
             try {
-                System.out.print(">> ");
-                Command command = game.listener.getCommand();
-                command.execute(game.player);
-            } catch (InvalidCommandException e) {
-                game.printer.printFailure();
-                System.out.println(e.getMessage());
-            } catch (QuitException e) {
-                break;
-            } catch (ErrMsg e) {
-                System.out.println(e.getMessage());
-            } catch (MsgToUser e) {
-                System.out.println(e.getMessage());
-            } catch (WinThrowable w) {
-                System.out.println(w.getMessage());
-                return;
+                command = new Command(rdr.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            game.printer.printState();
+
+            UserResponse resp = command.execute(game.player);
+            game.printer.printResponse(resp);
+
+            switch (resp.getType()) {
+                case WIN:
+                case QUIT:
+                    return;
+            }
         }
     }
 }

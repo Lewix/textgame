@@ -2,61 +2,59 @@ package textgame;
 
 import java.util.*;
 
+/**
+ * Represents some way in which items can be transformed to make new items.
+ * 
+ * input is a list of String item types which are consumed from the user's
+ * inventory.
+ * output is a list of Items which are added to the user's inventory
+ *
+ * @author ColinRothwell
+ *
+ * @see Item
+ */
 public class Transformation {
 	private String name;
-	private String contributionItem;
-	private List<Item> listOutput;
-	private Room location; //for transformations that can be performed everywhere location = "Player"
-	private boolean itemAffected;
-	private boolean contributionItemAffected;
+    private List<String> input;
+	private List<Item> output;
 	
-	//creates a new transformation that requires the existencs of the iterm in1 
-	public Transformation(String n, String in1, List<Item> lIt, Room l,boolean b1, boolean b2){
+	public Transformation(String n, List<String> in, List<Item> out) {
 		name = n;
-		contributionItem = in1;
-		listOutput = lIt;
-		location = l;
-		itemAffected = b1;
-		contributionItemAffected = b2;
+        input = in;
+        output = out;
 	}
 	
-	//creates a new transformation that does not require the existence of an other object
-	public Transformation(String n, List<Item> lIt, Room l, boolean b){
-		name = n;
-		contributionItem = null;
-		listOutput = lIt;
-		location = l;
-		itemAffected = b;
-		contributionItemAffected = false;
-	}
-	
-	public String getName(){
+    public UserResponse performTransformation(ItemContainer player) {
+        ArrayList<Item> consumed = new ArrayList<Item>();
+        for (String type : input) {
+            Item it = player.itemOfType(type);
+            if (it == null) {
+                return UserResponse.error("You must have an object of type " + type + " to " + name + ".");
+            }
+            consumed.add(it);
+        }
+
+        for (Item rem : consumed) {
+            player.removeItem(rem);
+        }
+
+        for (Item add : output) {
+            player.addItem(add);
+        }
+
+        return UserResponse.message("Removed " + ItemContainer.describeItems(consumed) +
+                ", and added " + ItemContainer.describeItems(output) + ".");
+    }
+
+	public String getName() {
 		return name;
 	}
+
+    public List<String> getInput() {
+        return input;
+    }
 	
-	//checks whether a contribution item is needed fo the transformation to be applied
-	public boolean hasContributionItem(String s){
-		return (contributionItem != null);
+	public List<Item> getOutput() {
+		return output;
 	}
-	
-	public String getContributionItem() {
-		return contributionItem;
-	}
-	
-	public List<Item> getOutputItems(){
-		return listOutput;
-	}
-	
-	public Room getLocation(){
-		return location;
-	}
-	
-	public boolean itemVanishes() {
-		return itemAffected;
-	}
-	
-	public boolean contributionItemVanishes() {
-		return contributionItemAffected;
-	}
-	
 }
