@@ -56,7 +56,7 @@ public class Game {
      */
     protected Room _makeYourRoom() {
         Room r = new Room(0,
-                "Your Room",
+                "your room",
                 "A small, dingy room. Sheets of paper cover the floor, along " +
                 "with trays stolen from hall, complete with plates of moldering " +
                 "food. One of the molds appears to twitch periodically, and the " +
@@ -67,11 +67,11 @@ public class Game {
     }
 
     protected Item _makePen() {
-        return new Item("pen", "Pen", "A Nice Pen");
+        return new Item("pen", "pen", "A nice pen");
     }
 
     protected Item _makePaper() {
-        return new Item("paper", "Paper", "A4, Margin, Lined. 80gsm, High quality.");
+        return new Item("paper", "paper", "A4, Margin, Lined. 80gsm, High quality.");
     }
 
     /**
@@ -79,7 +79,7 @@ public class Game {
      */
     protected Room _makeLibrary() {
         Room r = new Room(1,
-                "The Library",
+                "the library",
                 "The shelves locked as a result of recent vandalism, borrowable " +
                 "only with the express permission of the ferocious librarian, " +
                 "a few flickering bulbs cast a dingy light over the masses of " +
@@ -115,7 +115,7 @@ public class Game {
     }
 
     protected Item _makeTextBook() {
-        return new Item("textbook", "Textbook", "Algorithms and Shiz, Yo! 3rd Edition");
+        return new Item("textbook", "textbook", "Algorithms and Shiz, Yo! 3rd Edition");
     }
 
     /**
@@ -123,7 +123,7 @@ public class Game {
      */
     protected Room _makeJohnsRoom() {
         Room r = new Room(2,
-                "47E, John's Room",
+                "47E, John's room",
                 "47E, The legendary home of the legendary John Fawcett. The " +
                 "walls are lined with skulls of students who have failed to " +
                 "hand in their supervision work on time, in various states of " +
@@ -166,7 +166,7 @@ public class Game {
      */
     protected Room _makeCorridor() {
         return new Room(3,
-                "The Corridor",
+                "the corridor",
                 "An angry corridor. Its vicious snaps and snarls make you jump " +
                 "as you creep from one destination to the next.");
     }
