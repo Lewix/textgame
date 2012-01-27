@@ -19,6 +19,10 @@ public class Room extends ItemContainer {
     private String description;
 
 	public String getName() { return name; }
+    public boolean isKnownAs(String n) {
+        return name.toLowerCase().equals(n.toLowerCase());
+    }
+
     public String getDescription() { return description; }
     public void setDescription(String d) { description = d; }
 
@@ -26,7 +30,7 @@ public class Room extends ItemContainer {
     public List<NPC> getNPCs() { return NPCs; }
     public NPC getNPC(String name) {
         for (NPC candidate : NPCs) {
-            if (candidate.getName() == name) {
+            if (candidate.isKnownAs(name)) {
                 return candidate;
             }
         }
@@ -39,7 +43,7 @@ public class Room extends ItemContainer {
     public List<Room> getConnections() { return connections; }
     public Room getConnectionTo(String roomName) {
         for (Room candidate : connections) {
-            if (candidate.getName() == roomName) {
+            if (candidate.isKnownAs(roomName)) {
                 return candidate;
             }
         }

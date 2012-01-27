@@ -21,21 +21,26 @@ public abstract class ItemContainer {
 		itemList.add(it);
 	}
 
-    public String describeItems() {
-        int itCount = itemList.size();
+    //TODO: Make this less of an ugly hack
+    public static String describeItems(List<Item> items) {
+        int itCount = items.size();
         switch (itCount) {
             case 0:
                 return "nothing";
             case 1:
-                return itemList.get(0).getName();
+                return items.get(0).getName();
             default:
                 int i;
                 String desc = "";
                 for (i = 0; i < itCount - 1; ++i) {
-                    desc += itemList.get(i).getName() + ", ";
+                    desc += items.get(i).getName() + ", ";
                 }
-                return desc + "and " + itemList.get(i).getName();
+                return desc + "and " + items.get(i).getName();
         }
+    }
+
+    public String describeItems() {
+        return describeItems(itemList);
     }
 	
 	//removes the item from the container 
@@ -47,17 +52,26 @@ public abstract class ItemContainer {
 		return itemList.contains(it);
 	}
 	
-	public Item contains(String s){
+	public Item itemOfType(String type) {
 		for (Item it : itemList) {
-			//if list contain an item with name equal to s return true
-			if (it.getName().equals(s)) return it;
+			if (it.getType().equals(type)) {
+                return it;
+            }
 		}
-		//if list does not contain an item with name equal to s return false
 		return null;
 	}
+
+    public Item itemWithName(String name) {
+        name = name.toLowerCase();
+        for (Item it : itemList) {
+            if (it.getName().toLowerCase().equals(name)) {
+                return it;
+            }
+        }
+        return null;
+    }
 	
 	public int getId(){
 		return id;
 	}
-	
 }

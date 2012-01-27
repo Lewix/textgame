@@ -6,15 +6,20 @@ package textgame;
  * after each command the user issues.
  *
  * @author Lewis Brown
+ * @author Colin Rothwell
  */
 public class Printer {
-  public void printState() {
-    //TODO: write printState (and others for different parts of state)
-    System.out.println("No info");
-  }
+    Player player;
 
-  public void printFailure() {
-    System.out.println("You can't do that");
-  }
+    public Printer(Player p) {
+        player = p;
+    }
 
+    public void printState() {
+        System.out.println(player.describeLocation());
+    }
+
+    public void printResponse(UserResponse resp) {
+        System.out.println(resp.getMessage());
+    }
 }

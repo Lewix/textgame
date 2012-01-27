@@ -16,7 +16,7 @@ import java.lang.IllegalArgumentException;
  */
 class ConversationState {
     private String reply;
-    public String getReply() throws WinThrowable { return reply; }
+    public String getReply() { return reply; }
 
     public ConversationState(String reply) {
         this.reply = reply;

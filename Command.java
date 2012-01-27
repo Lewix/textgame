@@ -27,9 +27,8 @@ public class Command {
      * Executes the command. Uses the <code>Verb</code>'s execute method to
      * execute the command and thus modify the game state.
      */
-    public void execute(Player player) throws 
-            InvalidCommandException, ErrMsg, MsgToUser, WinThrowable, QuitException {
-        this.verb.execute(args,player);
+    public UserResponse execute(Player player) {
+        return this.verb.execute(args,player);
     }
 
     // Verb spellings
@@ -48,55 +47,64 @@ public class Command {
      */
     private enum Verb {
         GO(go) {
-            void execute(String[] args, Player player) throws InvalidCommandException, ErrMsg, MsgToUser {
+            UserResponse execute(String[] args, Player player) {
+                String roomName = null;
                 if (args[0].equals("to")) {
-                    String roomName = concatenate(Arrays.copyOfRange(args,1,args.length));
-                    player.goTo(roomName);
+                    roomName = concatenate(Arrays.copyOfRange(args, 1, args.length));
                 }
+                else {
+                    roomName = concatenate(args);
+                }
+                return player.goTo(roomName);
             }
         },
         COMBINE(combine) {
-            void execute(String[] args, Player player) throws InvalidCommandException, MsgToUser {
+            UserResponse execute(String[] args, Player player) {
                 switch (args.length) {
-                    case 2: player.use(args[0],args[1]); break;
-                    case 3: if (args[1].equals("and")) {
-                                player.use(args[0],args[2]); break;
-                    }
-                    else if (args[1].equals("with")) {
-                        player.use(args[0],args[2]); break;
-                    }
-                    default: throw new InvalidCommandException("Wrong amount of arguments");
+                    case 2:
+                        player.use(args[0], args[1]);
+                        break;
+                    case 3:
+                        if (args[1].equals("and") || args[1].equals("or")) {
+                            player.use(args[0], args[2]); 
+                        }
+                        break;
                 }
+                return UserResponse.error("Wrong amount of arguments");
             }
         },
         TALK(talk) {
-            void execute(String[] args, Player player) throws InvalidCommandException, ErrMsg {
+            UserResponse execute(String[] args, Player player) {
                 String npcName = concatenate(args);
-                player.talkTo(npcName);
+                return player.talkTo(npcName);
             }
         },
         TAKE(take) {
-            void execute(String[] args, Player player) throws InvalidCommandException, MsgToUser {
+            UserResponse execute(String[] args, Player player) {
                 String itemName = concatenate(args);
-                player.pickUp(itemName);
+                return player.pickUp(itemName);
             }
         },
         LOOK(look) {
-            void execute(String[] args, Player player) throws InvalidCommandException, MsgToUser {
+            UserResponse execute(String[] args, Player player) {
+                String objectName = null;
                 if (args[0].equals("at")) {
-                    String objectName = concatenate(Arrays.copyOfRange(args,1,args.length));
-                    player.lookAt(objectName);
+                    objectName = concatenate(Arrays.copyOfRange(args,1,args.length));
                 }
+                else {
+                    objectName = concatenate(args);
+                }
+                return player.lookAt(objectName);
             }
         },
         NONE(none) {
-            void execute(String[] args, Player player) throws InvalidCommandException {
-                throw new InvalidCommandException("No command");
+            UserResponse execute(String[] args, Player player) {
+                return UserResponse.error("No command");
             }
         },
         QUIT(quit) {
-            void execute(String[] args, Player player) throws QuitException {
-                throw new QuitException();
+            UserResponse execute(String[] args, Player player) {
+                return UserResponse.quit("Goodbye!");
             }
         };
 
@@ -112,7 +120,7 @@ public class Command {
                 string += s + " ";
             }
             // Get rid of trailing space
-            string = string.substring(0,string.length()-2); 
+            string = string.substring(0, string.length() - 1); 
             return string;
         }
 
@@ -129,9 +137,7 @@ public class Command {
             }
             return NONE;
         }
-        abstract void execute(String[] args, Player player) throws 
-            InvalidCommandException, ErrMsg, MsgToUser, WinThrowable, QuitException;
-
+        abstract UserResponse execute(String[] args, Player player);
     }
 
     /**
