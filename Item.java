@@ -3,16 +3,19 @@ package textgame;
 import java.util.*;
 
 public class Item {
-	
+    private String type;
 	private String name;
 	private String description;
-	private List<Transformation> listTransformations;
 	
-	public Item(String n, String d) {
+	public Item(String t, String n, String d) {
+        type = t;
 		name = n;
 		description = d;
-		listTransformations = new ArrayList<Transformation>();
 	}
+
+    public String getType() {
+        return type;
+    }
 	
 	public String getName() {
 		return name;
@@ -21,15 +24,4 @@ public class Item {
 	public String getDescription() {
 		return description;
 	}
-	
-	//check if transormation is applicable for the item
-	public Transformation contain(String s) {
-		for (Transformation tr : listTransformations) {
-			//if list contain a transformation with name equal to s return true
-			if (tr.getName().equals(s)) return tr;
-		}
-		//if list does not contain a transformation with name equal to s return false
-		return null;
-	}
-	
 }

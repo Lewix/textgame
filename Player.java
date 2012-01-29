@@ -1,13 +1,15 @@
 package textgame;
 
+import java.util.*;
+
 public class Player extends ItemContainer {
-   	
 	private Room location;
-	//map removed
+    private TransformationManager transman;
 	
-	public Player(Room r){
+    public Player(Room r, TransformationManager tm) {
 		super(144); //id=144 restricted for player
 		location = r;
+        transman = tm;
 	}
 
     public String describeLocation() {
@@ -15,89 +17,71 @@ public class Player extends ItemContainer {
     }
 	
 	//move the player to the specified room 
-	public void goTo(String r) throws MsgToUser, ErrMsg {
+	public UserResponse goTo(String r) {
         Room next = location.getConnectionTo(r);
         if (next == null) {
-            throw new ErrMsg("You can't get to " + r + " from here.");
+            return UserResponse.error("You can't get to " + r + " from here.");
         }
         location = next;
-        throw new MsgToUser(describeLocation());
+        return UserResponse.message(describeLocation());
 	}
 	
-	public void lookAt(String it) throws MsgToUser {
-		Item tempItem = location.contains(it);
+	public UserResponse lookAt(String it) {
+		Item tempItem = location.itemWithName(it);
 		if (tempItem != null) {
-			throw new MsgToUser(tempItem.getDescription());
+			return UserResponse.message(tempItem.getDescription());
 		}
 		else {
-			tempItem = this.contains(it);
-			if (tempItem != null) {
-				throw new MsgToUser(tempItem.getDescription());
-			}
-			else throw new ErrMsg("No such item around");
+			return UserResponse.error("No such item around");
 		}
 	}
 	
-	public void pickUp(String it) throws MsgToUser {
-		Item tempItem = location.contains(it);
+	public UserResponse pickUp(String it) {
+		Item tempItem = location.itemWithName(it);
 		if (tempItem != null) {
 			this.addItem(tempItem);
 			location.removeItem(tempItem);
+            return UserResponse.message("Picked up " + tempItem.getName() + ".");
 		}
 		else {
-			throw new ErrMsg("Sorry but I can't find any " + it);
+			return UserResponse.error("Sorry but I can't find any " + it);
 		}
 	}
 	
-	public void talkTo(String characterName) throws ErrMsg {
+	public UserResponse talkTo(String characterName) {
         NPC npc = location.getNPC(characterName);
         if (npc == null) {
-            throw new ErrMsg("There's nobody called " + characterName + " here.");
+            return UserResponse.error("There's nobody called " + characterName + " here.");
         }
+        return UserResponse.message("I don't want to speak to them!");
 	}
 	
-	public void use(String it1, String it2, String tr) throws MsgToUser {
-		Item tempItem1 = this.contains(it1);
-		Item tempItem2 = this.contains(it2);
-		
-		if (tempItem1 == null) {
-			throw new ErrMsg("Sorry but I don't own a " + it1);
-		} else if (tempItem2 == null) {
-			throw new ErrMsg("Sorry but I don't own a " + it2);			
-		} else {
-			Transformation tempTransformation = tempItem1.contain(tr);
-			if (tempTransformation != null) {
-				if (tempTransformation.getLocation().equals(location.getId())) {
-					if (tempTransformation.getContributionItem().equals(it2)) {
-						for (Item newIt : tempTransformation.getOutputItems()){
-							this.addItem(newIt);
-						}
-						if (tempTransformation.contributionItemVanishes()) this.removeItem(tempItem2);
-						if (tempTransformation.itemVanishes()) this.removeItem(tempItem1);
-					} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1 + " with " + it2);
-				} else throw new ErrMsg("Sorry but I can't do that here");
+	public UserResponse use(String name1, String name2) {
+        Item item1 = itemWithName(name1);
+        if (item1 == null) {
+            return UserResponse.error("You don't have a " + name1 + ".");
+        }
 
-			} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1);
-		}
-	}
-	
-	public void use(String it1, String tr) throws MsgToUser {
-		Item tempItem1 = this.contains(it1);
-		
-		if (tempItem1 == null) {
-			throw new ErrMsg("Sorry but I don't own a " + it1);			
-		} else {
-			Transformation tempTransformation = tempItem1.contain(tr);
-			if (tempTransformation != null) {
-				if (tempTransformation.getLocation().equals(location.getId())) {
+        Item item2 = itemWithName(name2);
+        if (item2 == null) {
+            return UserResponse.error("You don't have a " + name2 + ".");
+        }
 
-						for (Item newIt : tempTransformation.getOutputItems()){
-							this.addItem(newIt);
-						}
-						if (tempTransformation.itemVanishes()) this.removeItem(tempItem1);
-				} else throw new ErrMsg("Sorry but I can't do that here");
-			} else throw new ErrMsg("Sorry but I can't " + tr + " " + it1);
-		}
+        List<String> in = new ArrayList<String>();
+        in.add(item1.getType());
+        in.add(item2.getType());
+        Set<Transformation> ts = transman.getTransformations(in);
+
+        if (ts.isEmpty()) {
+            return UserResponse.error("You can't do anything with a " + 
+                    name1 + " and a " + name2 + "!");
+        }
+        else if (ts.size() > 1) {
+            return UserResponse.error("Non unique combinations. Probably a bug.");
+        }
+        else {
+            return ts.iterator().next().performTransformation(this);
+        }
 	}
 }
 

@@ -23,6 +23,10 @@ class NPC {
     public String getName() { return name; }
     public String getDescription() { return description; }
 
+    public boolean isKnownAs(String n) {
+        return name.toLowerCase().equals(n.toLowerCase());
+    }
+
     public ConversationState getState() { return state; }
 
     public NPC(int id, String name, String description, ConversationState initialState) {
